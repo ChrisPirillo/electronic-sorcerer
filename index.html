@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- SEO and Performance Optimization by an Expert -->
+    <meta charset="UTF-8">
+    <title>Electronic Sorcerer - A Retro Handheld Game Arcade</title>
+    
+    <!-- Meta Tags for SEO -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="Play Electronic Sorcerer, a collection of classic retro handheld electronic games like Tic-Tac-Toe, Echo, and Blackjack 13. A nostalgic digital toy for all ages.">
+    <meta name="keywords" content="electronic sorcerer, retro game, handheld game, classic games, tic-tac-toe, echo, blackjack, 80s game, vintage toy, arcade">
+    <meta name="author" content="Chris Pirillo">
+    <link rel="canonical" href="https://pirillo.com/arcade/electronic-sorcerer.html">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pirillo.com/arcade/electronic-sorcerer.html">
+    <meta property="og:title" content="Electronic Sorcerer - A Retro Handheld Game Arcade">
+    <meta property="og:description" content="A nostalgic collection of classic retro handheld electronic games.">
+    <meta property="og:image" content="https://pirillo.com/arcade/images/electronic-sorcerer.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter Card -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://pirillo.com/arcade/electronic-sorcerer.html">
+    <meta property="twitter:title" content="Electronic Sorcerer - A Retro Handheld Game Arcade">
+    <meta property="twitter:description" content="A nostalgic collection of classic retro handheld electronic games.">
+    <meta property="twitter:image" content="https://pirillo.com/arcade/images/electronic-sorcerer.png">
+    <meta name="twitter:creator" content="@ChrisPirillo">
+
+    <!-- Resource Hints for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap"></noscript>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js" async></script>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1CQ4D3VQ3L"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-1CQ4D3VQ3L');
+    </script>
+    
+    <style>
+        :root {
+            --merlin-red: #D52222;
+            --merlin-dark-red: #A31919;
+            --merlin-black: #1A1A1A;
+            --light-off: #4A0404;
+            --light-on: #F87171;
+            --light-blink: #fca5a5;
+            --button-grey: #D1D5DB;
+            --button-grey-dark: #6B7280;
+            --button-text: #111827;
+        }
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: var(--merlin-black);
+            touch-action: manipulation;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            font-display: swap; /* Font performance */
+        }
+        .merlin-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100vw;
+            padding: 10px;
+        }
+        .merlin-body {
+            width: 350px;
+            max-height: 95vh;
+            background: linear-gradient(145deg, var(--merlin-red), var(--merlin-dark-red));
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4), inset 0 0 15px rgba(0,0,0,0.5);
+            padding: 20px;
+            border: 2px solid #440000;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            position: relative;
+        }
+        #game-title {
+            color: var(--light-on);
+            height: 40px;
+            line-height: 40px;
+            font-size: 1rem;
+            text-shadow: 0 0 5px var(--light-on);
+            text-align: center;
+            background-color: var(--merlin-black);
+            border-radius: 5px;
+            flex-shrink: 0;
+            margin-bottom: 15px;
+        }
+        .game-area {
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             margin-bottom: 15px;
+        }
+        .game-grid-container {
+            background-color: var(--merlin-dark-red);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            justify-items: center;
+            align-items: center;
+        }
+        .button-well {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--merlin-black);
+            width: 85px;
+            height: 85px;
+            border-radius: 5px;
+        }
+        .grid-button {
+            width: 75px;
+            height: 75px;
+            background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+            border-radius: 8px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 2px 2px 4px #111, inset -2px -2px 4px #333;
+        }
+        .game-button {
+             cursor: pointer;
+        }
+        .led-light {
+            width: 65px;
+            height: 65px;
+            background-color: var(--merlin-black);
+            border-radius: 5px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .led-light::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: var(--light-off);
+            border-radius: 50%;
+            box-shadow: inset 1px 1px 3px rgba(0,0,0,0.8);
+            transition: all 0.1s ease-in-out;
+        }
+        .led-light.on::after {
+            background-color: var(--light-on);
+            box-shadow: 0 0 15px var(--light-on), 0 0 20px var(--light-on);
+        }
+        @keyframes blink-after { 50% { background-color: var(--light-blink); box-shadow: 0 0 15px var(--light-blink); } }
+        .led-light.blinking::after { animation: blink-after 0.5s infinite; }
+        .control-panel {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 15px;
+            background: var(--merlin-dark-red);
+            border-radius: 10px;
+            justify-items: center;
+        }
+        .control-button {
+            width: 110px;
+            height: 55px;
+            border: 2px solid var(--button-text);
+            border-radius: 8px;
+            color: var(--button-text);
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(145deg, var(--button-grey), var(--button-grey-dark));
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.1;
+            padding: 2px;
+        }
+        .control-button:active { transform: translateY(2px); box-shadow: 0 2px 3px rgba(0,0,0,0.5); }
+        .primary-label { font-size: 0.8rem; font-weight: bold; }
+        .secondary-label { font-size: 0.65rem; }
+    </style>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      "name": "Electronic Sorcerer",
+      "url": "https://pirillo.com/arcade/electronic-sorcerer.html",
+      "author": {
+        "@type": "Person",
+        "name": "Chris Pirillo"
+      },
+      "image": "https://pirillo.com/arcade/images/electronic-sorcerer.png",
+      "description": "Play Electronic Sorcerer, a collection of classic retro handheld electronic games like Tic-Tac-Toe, Echo, and Blackjack 13.",
+      "applicationCategory": "Game",
+      "operatingSystem": "Web",
+      "genre": "Arcade",
+      "playMode": "SinglePlayer",
+      "inLanguage": "en-US",
+      "publisher": {
+          "@type": "Organization",
+          "name": "Pirillo",
+          "url": "https://pirillo.com/"
+      }
+    }
+    </script>
+</head>
+<body class="bg-gray-800">
+
+    <main class="merlin-container">
+        <section class="merlin-body" role="application" aria-labelledby="game-title">
+            <header>
+                <h1 id="game-title" class="text-lg">ELECTRONIC SORCERER</h1>
+            </header>
+            
+            <div class="game-area" role="grid" aria-label="Game Board">
+                <div class="game-grid-container">
+                    <div class="game-grid">
+                        <div role="presentation"></div>
+                        <div class="button-well" role="presentation"><div class="grid-button"><div class="led-light" id="indicator-top" aria-label="Top Indicator Light"></div></div></div>
+                        <div role="presentation"></div>
+                        
+                        <div class="button-well"><div class="grid-button game-button" role="button" aria-label="Game button 1"><div class="led-light" id="led-0"></div></div></div>
+                        <div class="button-well"><div class="grid-button game-button" role="button" aria-label="Game button 2"><div class="led-light" id="led-1"></div></div></div>
+                        <div class="button-well"><div class="grid-button game-button" role="button" aria-label="Game button 3"><div class="led-light" id="led-2"></div></div></div>
+                        <div class="button-well"><div class="grid-button game-button" role="button" aria-label="Game button 4"><div class="led-light" id="led-3"></div></div></div>
+                        <div class="button-well"><div class="grid-button game-button" role="button" aria-label="Game button 5"><div class="led-light" id="led-4"></div></div></div>
+                        <div class="button-well"><div class="grid-button game-button" role="button" aria-label="Game button 6"><div class="led-light" id="led-5"></div></div></div>
+                        <div class="button-well"><div class="grid-button game-button" role="button" aria-label="Game button 7"><div class="led-light" id="led-6"></div></div></div>
+                        <div class="button-well"><div class="grid-button game-button" role="button" aria-label="Game button 8"><div class="led-light" id="led-7"></div></div></div>
+                        <div class="button-well"><div class="grid-button game-button" role="button" aria-label="Game button 9"><div class="led-light" id="led-8"></div></div></div>
+                        
+                        <div role="presentation"></div>
+                        <div class="button-well" role="presentation"><div class="grid-button"><div class="led-light" id="indicator-bottom" aria-label="Bottom Indicator Light"></div></div></div>
+                        <div role="presentation"></div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="control-panel" aria-label="Game Controls">
+                <button id="new-game-btn" class="control-button">
+                    <span class="primary-label">NEW GAME</span>
+                    <span class="secondary-label">HIT ME</span>
+                </button>
+                <button id="game-select-btn" class="control-button">
+                    <span class="primary-label">GAME</span>
+                    <span class="secondary-label">SELECT</span>
+                </button>
+                <button id="same-game-btn" class="control-button">
+                    <span class="primary-label">SAME GAME</span>
+                    <span class="secondary-label">CLEAR</span>
+                </button>
+                <button id="comp-turn-btn" class="control-button">
+                    <span class="primary-label">COMP TURN</span>
+                    <span class="secondary-label">PLAY</span>
+                </button>
+            </nav>
+        </section>
+    </main>
+
+<script>
+// --- JAVASCRIPT IS UNCHANGED PER REQUIREMENTS ---
+document.addEventListener('DOMContentLoaded', () => {
+    // --- NO MORE SCALING LOGIC IN JS. CSS HANDLES EVERYTHING ---
+
+    // --- DOM Elements ---
+    const leds = Array.from(document.querySelectorAll('.led-light'));
+    const gameTitle = document.getElementById('game-title');
+    const newGameBtn = document.getElementById('new-game-btn');
+    const gameSelectBtn = document.getElementById('game-select-btn');
+    const sameGameBtn = document.getElementById('same-game-btn');
+    const compTurnBtn = document.getElementById('comp-turn-btn');
+    const indicatorTop = document.getElementById('indicator-top');
+    const indicatorBottom = document.getElementById('indicator-bottom');
+    const gameLeds = Array.from(document.querySelectorAll('.game-button .led-light'));
+
+    // --- State ---
+    let currentGameIndex = 0, gameActive = false, isPlayerTurn = true, uiLock = false;
+
+    // --- Game-specific state ---
+    let ttt_board, echo_sequence, echo_player_sequence, ms_board, bj_playerTotal, bj_merlinTotal, bj_playerStay, mb_secretCode, mb_playerGuess, mm_tune, mm_isRecording;
+    const notes = ['C4', 'D4', 'E4', 'F4', 'G4', 'A4', 'B4', 'C5', 'D5'];
+
+    // --- Sound ---
+    let synth;
+    const initializeAudio = () => { if (!synth && window.Tone) { if (Tone.context.state !== 'running') Tone.start(); synth = new Tone.Synth({ oscillator: { type: 'square' }, envelope: { attack: 0.01, decay: 0.1, sustain: 0.2, release: 0.1 } }).toDestination(); } };
+    const playSound = (note, duration = '8n') => { if (synth) synth.triggerAttackRelease(note, duration); };
+    const playWinSound = () => { if (!synth) return; const now = Tone.now() + 0.1; synth.triggerAttackRelease("C4", "8n", now); synth.triggerAttackRelease("E4", "8n", now + 0.1); synth.triggerAttackRelease("G4", "8n", now + 0.2); synth.triggerAttackRelease("C5", "8n", now + 0.3); };
+    const playLoseSound = () => { if (!synth) return; const now = Tone.now() + 0.1; synth.triggerAttackRelease("C4", "8n", now); synth.triggerAttackRelease("A3", "8n", now + 0.1); synth.triggerAttackRelease("F3", "8n", now + 0.2); synth.triggerAttackRelease("D3", "8n", now + 0.3); };
+    const playDrawSound = () => { if (!synth) return; const now = Tone.now() + 0.1; synth.triggerAttackRelease("C4", "4n", now); synth.triggerAttackRelease("G3", "4n", now + 0.2); };
+    
+    // --- Utils ---
+    const delay = ms => new Promise(res => setTimeout(res, ms));
+    const updateDisplay = (board) => board.forEach((cell, index) => gameLeds[index].classList.toggle('on', cell > 0));
+    const clearDisplay = () => leds.forEach(led => led.classList.remove('on', 'blinking'));
+    const flashLED = async (index, duration = 300) => { gameLeds[index].classList.add('on'); playSound(notes[index % 9]); await delay(duration); gameLeds[index].classList.remove('on'); };
+    const showMessage = (msg, duration = 1500) => { const originalTitle = games[currentGameIndex].name; gameTitle.textContent = msg; if (duration > 0) { setTimeout(() => { if (gameActive || gameTitle.textContent === msg) gameTitle.textContent = originalTitle; }, duration); } };
+    async function blinkIndicator(indicator, times) { for (let i = 0; i < times; i++) { indicator.classList.add('on'); playSound('G5', '16n'); await delay(200); indicator.classList.remove('on'); await delay(200); } }
+
+    // --- Game Logic ---
+    const games = [
+        { name: "TIC-TAC-TOE", init: initTTT, handleGrid: handleTTTGrid }, { name: "ECHO", init: initEcho, handleGrid: handleEchoGrid }, { name: "BLACKJACK 13", init: initBlackjack, handleSameGame: handleBlackjackStay, handleNewGame: handleBlackjackHit }, { name: "MAGIC SQUARE", init: initMagicSquare, handleGrid: handleMagicSquareGrid }, { name: "MINDBENDER", init: initMindbender, handleGrid: handleMindbenderGrid, handleCompTurn: handleMindbenderCheck, handleSameGame: handleMindbenderClear }, { name: "MUSIC MACHINE", init: initMusicMachine, handleGrid: handleMusicMachineGrid, handleCompTurn: handleMusicMachinePlay, handleSameGame: handleMusicMachineRecord }
+    ];
+    function switchGame(index) { gameActive = false; currentGameIndex = index; clearDisplay(); gameTitle.textContent = games[currentGameIndex].name; }
+    function initTTT() { ttt_board = Array(9).fill(0); isPlayerTurn = true; gameActive = true; updateDisplay(ttt_board); showMessage("YOUR TURN", 1000); }
+    function handleTTTGrid(index) { if (!isPlayerTurn || ttt_board[index] !== 0 || uiLock) return; playSound('A4', '16n'); ttt_board[index] = 1; updateDisplay(ttt_board); if (checkTTTWinner()) return; isPlayerTurn = false; showMessage("SORCERER'S TURN", 1000); uiLock = true; setTimeout(() => { if(gameActive) handleTTTCompTurn(); uiLock = false; }, 1200); }
+    function handleTTTCompTurn() { if (isPlayerTurn) return; let available = ttt_board.map((v, i) => v === 0 ? i : -1).filter(v => v !== -1); if (available.length > 0) { let move = -1; const mistakeChance = 0.3; if (Math.random() >= mistakeChance) { for (let p = 2; p >= 1; p--) { for (let i of available) { ttt_board[i] = p; if (checkTTTWinner(true)) move = i; ttt_board[i] = 0; if (move !== -1) break; } if (move !== -1) break; } } if (move === -1) { move = available.includes(4) ? 4 : available[Math.floor(Math.random() * available.length)]; } ttt_board[move] = 2; playSound('F3', '16n'); updateDisplay(ttt_board); } if (checkTTTWinner()) return; isPlayerTurn = true; showMessage("YOUR TURN", 1000); }
+    function checkTTTWinner(checkOnly = false) { const lines = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]; for(let line of lines) { const [a,b,c] = line; if (ttt_board[a] && ttt_board[a]===ttt_board[b] && ttt_board[a]===ttt_board[c]) { if(checkOnly) return true; gameActive=false; showMessage(ttt_board[a]===1 ? "YOU WIN!" : "SORCERER WINS!", 0); (ttt_board[a]===1 ? playWinSound:playLoseSound)(); return true; } } if (!ttt_board.includes(0)) { if(checkOnly) return false; gameActive=false; showMessage("DRAW!", 0); playDrawSound(); return true; } return false; }
+    async function initEcho() { echo_sequence = []; gameActive = true; await delay(500); runEchoSequence(); }
+    async function runEchoSequence() { uiLock = true; isPlayerTurn = false; echo_player_sequence = []; echo_sequence.push(Math.floor(Math.random() * 9)); clearDisplay(); await delay(500); for(const index of echo_sequence) { await flashLED(index, 300); await delay(150); } isPlayerTurn = true; uiLock = false; }
+    function handleEchoGrid(index) { if(!isPlayerTurn || uiLock) return; flashLED(index, 150); echo_player_sequence.push(index); const i = echo_player_sequence.length-1; if(echo_player_sequence[i] !== echo_sequence[i]) { gameActive=false; showMessage("WRONG!", 0); playLoseSound(); return; } if(echo_player_sequence.length === echo_sequence.length) { playWinSound(); setTimeout(runEchoSequence, 1000); } }
+    function initBlackjack() { bj_playerTotal=0; bj_merlinTotal=0; bj_playerStay=false; gameActive=true; clearDisplay(); showMessage("BLACKJACK 13", 1000); setTimeout(() => dealBlackjackCard('player'), 500); }
+    async function dealBlackjackCard(p) { const card = Math.floor(Math.random()*9)+1; await flashLED(card-1, 300); if(p === 'player') { bj_playerTotal += card; showMessage(`YOUR TOTAL: ${bj_playerTotal}`); if(bj_playerTotal > 13) { endBlackjack("PLAYER BUSTS!"); playLoseSound(); } } else { bj_merlinTotal += card; showMessage(`SORCERER: ${bj_merlinTotal}`); if(bj_merlinTotal > 13) { endBlackjack("SORCERER BUSTS!"); playWinSound(); } } }
+    function handleBlackjackHit() { if(!bj_playerStay && gameActive) dealBlackjackCard('player'); }
+    async function handleBlackjackStay() { if(bj_playerStay || !gameActive) return; bj_playerStay=true; while(bj_merlinTotal < 10 && gameActive){ await delay(500); await dealBlackjackCard('merlin'); } if(gameActive){ if(bj_playerTotal>bj_merlinTotal) { endBlackjack("YOU WIN!"); playWinSound(); } else if (bj_merlinTotal>bj_playerTotal) { endBlackjack("SORCERER WINS!"); playLoseSound(); } else { endBlackjack("DRAW!"); playDrawSound(); } } }
+    function endBlackjack(msg){ gameActive=false; showMessage(msg, 0); }
+    function initMagicSquare() { gameActive = true; ms_board = Array(9).fill(1); ms_board[4] = 0; let presses = Math.floor(Math.random() * 6) + 5; for(let i=0; i<presses; i++) { toggleMagicSquare(Math.floor(Math.random()*9), false); } updateDisplay(ms_board); }
+    function handleMagicSquareGrid(index) { toggleMagicSquare(index, true); updateDisplay(ms_board); const win = ms_board.every((v, i) => i===4 ? v===0 : v===1); if (win) { gameActive=false; showMessage("YOU WIN!", 0); playWinSound(); } }
+    function toggleMagicSquare(index, playSnd){ if(playSnd) playSound('C4','16n'); const adjacent=[[1,3],[0,2,4],[1,5],[0,4,6],[1,3,5,7],[2,4,8],[3,7],[4,6,8],[5,7]]; ms_board[index]=1-ms_board[index]; adjacent[index].forEach(i => { ms_board[i]=1-ms_board[i]; }); }
+    function initMindbender() { gameActive=true; isPlayerTurn=true; mb_secretCode=[]; while(mb_secretCode.length<3){ const d=Math.floor(Math.random()*9); if(!mb_secretCode.includes(d)) mb_secretCode.push(d); } mb_playerGuess=[]; clearDisplay(); showMessage("GUESS THE CODE", 1500); }
+    function handleMindbenderGrid(index) { if (!isPlayerTurn || mb_playerGuess.length >= 3 || mb_playerGuess.includes(index)) return; gameLeds[index].classList.add('on'); mb_playerGuess.push(index); playSound(notes[index], '16n'); }
+    async function handleMindbenderCheck() { if(mb_playerGuess.length!==3 || !isPlayerTurn) return; uiLock=true; isPlayerTurn=false; let correctPos=0; let correctDig=0; for(let i=0; i<3; i++){ if(mb_playerGuess[i]===mb_secretCode[i]) correctPos++; if(mb_secretCode.includes(mb_playerGuess[i])) correctDig++; } await delay(500); clearDisplay(); await delay(300); const correctDigitWrongPos = correctDig - correctPos; await blinkIndicator(indicatorTop, correctPos); await delay(200); await blinkIndicator(indicatorBottom, correctDigitWrongPos); await delay(1000); if(correctPos===3){ gameActive=false; showMessage("YOU WIN!", 0); playWinSound(); mb_secretCode.forEach(i=>gameLeds[i].classList.add('on')); } else { mb_playerGuess=[]; isPlayerTurn=true; showMessage("GUESS AGAIN", 1000); } uiLock=false; }
+    function handleMindbenderClear() { mb_playerGuess = []; clearDisplay(); gameLeds.forEach(l => l.classList.remove('on'));}
+    function initMusicMachine() { gameActive=true; isPlayerTurn=true; mm_isRecording=true; mm_tune=[]; clearDisplay(); showMessage("MUSIC MACHINE", 1500); gameLeds[8].classList.add('blinking'); }
+    function handleMusicMachineGrid(index) { if(!isPlayerTurn || uiLock)return; playSound(notes[index],'8n'); flashLED(index,150); if(mm_isRecording) mm_tune.push(index); }
+    async function handleMusicMachinePlay() { if(uiLock) return; mm_isRecording=false; gameLeds[8].classList.remove('blinking'); uiLock=true; for(const index of mm_tune){await flashLED(index, 200); await delay(50);} uiLock=false; }
+    function handleMusicMachineRecord() { mm_tune=[]; mm_isRecording=true; playSound('E5'); gameLeds[8].classList.add('blinking');}
+    
+    // --- Event Listeners ---
+    const allButtons = document.querySelectorAll('button, .game-button');
+    allButtons.forEach(btn => btn.addEventListener('click', initializeAudio, { once: true }));
+    newGameBtn.addEventListener('click', () => { playSound('C5'); const game = games[currentGameIndex]; if (game.handleNewGame) game.handleNewGame(); else if (game.init) game.init(); });
+    gameSelectBtn.addEventListener('click', () => { playSound('G4'); switchGame((currentGameIndex + 1) % games.length); });
+    sameGameBtn.addEventListener('click', () => { playSound('E4'); const game = games[currentGameIndex]; if (game.handleSameGame) game.handleSameGame(); else if (game.init) game.init(true); });
+    compTurnBtn.addEventListener('click', () => { if (!gameActive || uiLock) return; playSound('C4'); const game = games[currentGameIndex]; if (game.handleCompTurn) game.handleCompTurn(); });
+    document.querySelectorAll('.game-button').forEach((btn, index) => { btn.addEventListener('click', () => { if (!gameActive || uiLock) return; const game = games[currentGameIndex]; if (game.handleGrid) game.handleGrid(index); }); });
+
+    gameTitle.textContent = 'PRESS NEW GAME';
+});
+</script>
+</body>
+</html>
